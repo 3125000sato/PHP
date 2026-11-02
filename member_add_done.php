@@ -16,6 +16,14 @@
             $email= htmlspecialchars($email);
             $address= htmlspecialchars($address);
 
+            $dbh=new PDO('sqlite:kadai.db');
+            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $dbh->exec('CREATE TABLE IF NOT EXISTS member(id INTEGER PRIMARY KEY,name TEXT,pass TEXT,email TEXT,address TEXT)');
+            $sql='INSERT INTO member(name,pass,email,address)VALUES("'.$name.'","'.$pass.'","'.$email.'","'.$address.'")';
+            $stmt=$dbh->prepare($sql);
+            $stmt->execute();
+            $dbh=null;
+
             print '下記の内容で登録しました。<br>';
             print '氏名：';
             print $name;
